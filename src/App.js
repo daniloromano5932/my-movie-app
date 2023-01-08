@@ -1,30 +1,20 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Movies from "./pages/Movies";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "movies/:slug",
-    element: <Movies />,
-  },
-]);
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+ 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <Header/>
-      <RouterProvider router={router} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="movies/:slug" element={<Movies />}/>
+      </Routes>
       <Footer/>
-    </div>
+    </BrowserRouter>
   );
 }
 
