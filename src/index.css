@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&display=swap');
+
 .navbar {
   background: #0d253f;
   padding: 1% !important;
@@ -5,4 +7,25 @@
 
 #navbarScrollingDropdown {
   color: aliceblue;
+}
+
+.card-item {
+  width: 180px !important;
+  margin: 2%;
+  padding: 0% !important;
+}
+
+.cards-container {
+  margin-top: 4%;
+}
+
+.card-title {
+  font-size: 1em;
+  font-weight: 600;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.release-date {
+  color: rgba(0,0,0,0.6);
+  margin: 0%;
 }
