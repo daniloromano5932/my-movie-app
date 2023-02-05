@@ -1,31 +1,254 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&display=swap');
 
+
+
+
 .navbar {
   background: #0d253f;
   padding: 1% !important;
 }
 
 #navbarScrollingDropdown {
-  color: aliceblue;
+  color: #f0f8ff;
+}
+
+.toggle {
+  color: #f0f8ff;
 }
 
 .card-item {
-  width: 180px !important;
-  margin: 2%;
-  padding: 0% !important;
+  width: calc(20% - 30px) !important;
+  margin: 15px;
+  padding: 0px !important;
 }
 
-.cards-container {
-  margin-top: 4%;
+
+.actor-card-item {
+  margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 4px;
+    padding-bottom: 10px;
+    overflow: hidden;
 }
 
-.card-title {
-  font-size: 1em;
+
+.container {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+
+
+.left-side {
+  width: 1020px;
+}
+
+div.scroller-wrap {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+div {
+  display: block;
+}
+
+.actor-card-item {
+  min-width: 140px !important;
+  width: 140px;
+  margin-right: 10px;
+}
+
+.people {
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.people.scroller::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.people.scroller::-webkit-scrollbar-thumb {
+  background-color: rgba(189, 195, 199);
+  border-radius: 20px;
+}
+
+div.scroller-wrap.should-fade.is-fading:after {
+  transition: linear 0.3s;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+  transition-property: all;
+  opacity: 1;
+}
+
+div.scroller-wrap.should-fade:after {
+  content: '';
+  width: 60px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: linear-gradient(to right, rgba(255,255,255,0) 0%, #fff 100%);
+  will-change: opacity;
+  pointer-events: none;
+}
+
+.people.scroller {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  margin-left: -10px;
+  margin-top: -10px;
+  padding-bottom: 10px;
+}
+
+.people {
+  list-style-type: none;
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.people.scroller::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.link .card-title {
+  font-size: 1em !important;
   font-weight: 600;
   font-family: 'Source Sans Pro', sans-serif;
+  color: #000000;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.card-title:hover {
+  color: #01b4e4;
+}
+
+.title {
+  font-size: 2.2em;
+  font-weight: 700;
+}
+
+.title-release-year {
+  color: #fff;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.certification {
+  opacity: 0.8;
+}
+
+.overview {
+  height: 510px;
+  color: #fff;
+  background-image: linear-gradient(to right, rgba(31.5, 31.5, 52.5, 1) calc((50vw - 170px) - 340px), rgba(31.5, 31.5, 52.5, 0.84) 30%, rgba(31.5, 31.5, 52.5, 0.84) 100%);
+}
+
+.overview-image {
+  width: 100%;
+  position: relative;
+  background-position: left calc((50vw - 170px) - 340px) top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-bottom: 1px solid #000;
+}
+
+.under-title {
+  font-size: 1em;
+}
+
+.tagline {
+  opacity: 0.8;
+  font-style: italic;
+  font-size: 1.1em;
+}
+
+.overview-title {
+  font-weight: 600;
+  font-size: 1.3em;
+}
+
+.overview-text {
+  font-size: 1em;
 }
 
 .release-date {
-  color: rgba(0,0,0,0.6);
+  color: #00000099;
   margin: 0%;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+.footer {
+  background-color: #0d253f;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-details {
+  margin-left: 50px;
+}
+
+.poster-img-container {
+  margin-left: 50px;
+}
+
+.overview-details {
+  margin-left: 100px;
+}
+
+.selected {
+  background-color: #01b4e4 !important;
+  color: #f0f8ff !important;
+}
+
+.btn-light {
+  margin-right: 6px !important;
+  margin-top: 8px !important;
+  border: solid 1px #000 !important;
+  border-radius: 100px !important;
+  font-size: 0.9em !important;
+}
+
+.btn-light:hover {
+  background-color: #01b4e4 !important;
+  color: #f0f8ff !important;
+}
+
+#search-button {
+  background-color: #01b4e4 !important;
+  color: #fff !important;
+  width: 100%;
+  height: auto;
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-top: 25px !important;
+  border-radius: 100px;
+}
+
+#search-button:hover {
+  background-color: #0d253f !important;
 }

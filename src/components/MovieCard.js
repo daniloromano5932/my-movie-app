@@ -1,14 +1,18 @@
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Link } from "react-router-dom";
+import { getReleaseDate } from "../utils";
+import { imgBasePath } from "../constants";
 
 function MovieCard(props) {
+
   return (
-    <Card style={{ width: '18rem' }} className="card-item">
-      <Card.Img variant="top" src={props.img} className="card-image" />
+    <Card className="card-item">
+      <Link to={'/movie/' + props.id}>
+        {props.img && <Card.Img variant="top" src={imgBasePath + "w500" + props.img} className="card-image" />}
+      </Link>
       <Card.Body>
-        <Card.Title className="card-title">{props.title}</Card.Title>
-        <p className='release-date'>{props.releaseDate}</p>
-        <Button variant="primary">Go somewhere</Button>
+        <Link to={'/movie/' + props.id} className='link'><Card.Title className="card-title">{props.title}</Card.Title></Link>
+        <p className='release-date'>{getReleaseDate(props.releaseDate)}</p>
       </Card.Body>
     </Card>
   );
