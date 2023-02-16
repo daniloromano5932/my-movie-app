@@ -1,0 +1,28 @@
+Actor Page:
+
+
+
+right side:
+
+acting
+
+************************************************************************
+
+Movie Details Page
+
+add link to view more and full cast and crew to cast and crew page
+
+
+left side:
+set up Social block
+set up media block
+set up recommendations block
+
+right-side:
+add social media icons and links
+add link to keywords to keyword page
+add content score block
+
+************************************************************************
+
+Footer

@@ -12,14 +12,14 @@ import Form from 'react-bootstrap/Form';
 function Filter(props) {
   const [sortBy, setSortBy] = useState(sortByOptions[0])
   const [genres, setGenres] = useState([])
-  const [languages, setLanguages] = useState([])
+  // const [languages, setLanguages] = useState([])
   const [selectedGenres, setSelectedGenres] = useState([])
   const [selectedLanguage, setSelectedLanguage] = useState("")
 
   useEffect(() => {
-    fetchLanguages();
+    // fetchLanguages();
     fetchGenres();
-  },[])
+  }, [])
 
   function handleClick(option) {
     setSortBy(option)
@@ -38,16 +38,18 @@ function Filter(props) {
     return genres
   }
 
-  function fetchLanguages() {
-    axios
-      .get(`/configuration/languages`)
-      .then(function (response) {
-        setLanguages(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }
+  // function fetchLanguages() {
+  //   axios
+  //     .get(`/configuration/languages`)
+  //     .then(function (response) {
+  //       setLanguages(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     })
+  // }
+
+  
 
   function selectGenre(id) {
     setSelectedGenres(function(prev) {
@@ -69,6 +71,7 @@ function Filter(props) {
     props.searchByLanguage(selectedLanguage)
   }
 
+ 
 
   return (
     <div>
@@ -90,19 +93,19 @@ function Filter(props) {
         <Accordion.Body>
           <p>Show Me</p>
           <div className="form-check">
-            <input className="form-check-input" type="radio" Name="flexRadioDefault" id="flexRadioDefault1" />
+            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
               Everything
             </label>
           </div>
           <div className="form-check">
-            <input className="form-check-input" type="radio" Name="flexRadioDefault" id="flexRadioDefault2" />
+            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
             <label className="form-check-label" htmlFor="flexRadioDefault2">
               Movies I Haven't Seen
             </label>
           </div>
           <div className="form-check">
-            <input className="form-check-input" type="radio" Name="flexRadioDefault" id="flexRadioDefault2" />
+            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
             <label className="form-check-label" htmlFor="flexRadioDefault2">
               Movies I Have Seen
             </label>
@@ -111,20 +114,20 @@ function Filter(props) {
         </Accordion.Body>
         <Accordion.Body>
           <p>Availabilities</p>
-          <input type="checkbox" Name="availabilities" /> <label>Search all availabilities?</label> <br />
+          <input type="checkbox" name="availabilities" /> <label>Search all availabilities?</label> <br />
           <hr />
         </Accordion.Body>
         <Accordion.Body>
           <p>Release Dates</p>
-          <input type="checkbox" Name="release-date" /> <label>Search all releases?</label> <br /><br />
-          <label>from</label>  <input type="date" Name="release-date-from" value="" />  <br />
-          <label>to</label>  <input type="date" Name="release-date-from" value="" />  <br />
+          <input type="checkbox" name="release-date" /> <label>Search all releases?</label> <br /><br />
+          <label>from</label>  <input type="date" name="release-date-from" />  <br />
+          <label>to</label>  <input type="date" name="release-date-from"  />  <br />
        <hr/>
         </Accordion.Body>
         <Accordion.Body>
           <p>Genres</p>
           {genres.map(function (item) {
-            return <button type='button' className={`btn btn-light ${selectedGenres.includes(item.id)? "selected" : null}`} key={item.id} onClick={function () {selectGenre(item.id)}}>{item.name}</button>
+            return <button key={item.id} type='button' className={`btn btn-light ${selectedGenres.includes(item.id)? "selected" : null}`} onClick={function () {selectGenre(item.id)}}>{item.name}</button>
           })}
           <hr />
         </Accordion.Body>
@@ -139,10 +142,10 @@ function Filter(props) {
         </Accordion.Body>
         <Accordion.Body>
           <p>Language ?</p>
-          <select class="form-select" aria-label="Default select example" onChange={selectLanguage}>
+          <select className="form-select" aria-label="Default select example" onChange={selectLanguage}>
             <option value="none">None Selected</option>
-            {languages.map((language) => {
-              return <option value={language.iso_639_1}>{language.english_name}</option>
+            {props.languages.map((language) => {
+              return <option key={language.id} value={language.iso_639_1}>{language.english_name}</option>
             })}
           </select>
           <hr />
@@ -164,7 +167,7 @@ function Filter(props) {
         </Accordion.Body>
         <Accordion.Body>
           <label htmlFor="exampleInputEmail1">Keywords</label>
-          <input type="text" Name="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='Filter by keywords...' />
+          <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='Filter by keywords...' />
           <hr />
         </Accordion.Body>
       </Accordion.Item>

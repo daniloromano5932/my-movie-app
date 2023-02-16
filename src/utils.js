@@ -27,3 +27,10 @@ export function getReleaseDateNumeric(date) {
   }
   return new Date(date).toLocaleDateString('en-UK', { day: "numeric", month: "numeric", year: "numeric" });
 }
+
+export function calculateAge(dob) {
+  var diff_ms = Date.now() - dob.getTime();
+  var age_dt = new Date(diff_ms);
+  return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
+
