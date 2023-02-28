@@ -5,13 +5,15 @@ import { useParams } from "react-router-dom"
 import Troupe from "../components/Troupe"
 import { Link } from "react-router-dom"
 import { imgBasePath } from "../constants"
-import { getReleaseYear} from "../utils"
+import { getReleaseYear} from "../utils.ts"
+import MovieTitleBar from "../components/MovieTitleBar"
 
 function MovieCredits() {
   const { movieId } = useParams()
   const [movieCast, setMovieCast] = useState([])
   const [movieCrew, setMovieCrew] = useState([])
   const [movieDetails, setMovieDetails] = useState([])
+  const [movieLists, setMovieLists] = useState([])
 
   useEffect(() => {
     axios
@@ -37,8 +39,11 @@ function MovieCredits() {
       })
   }, [movieId])
 
-
   if (movieCast.length === 0 || movieCrew.length === 0 || movieDetails.length === 0) {
+    return <p>Loading...</p>
+  }
+
+  if (movieId === null) {
     return <p>Loading...</p>
   }
 
@@ -70,17 +75,13 @@ console.log(movieDetails)
   return (
     <div>
       <ShortcutBar />
-      <div className="gradient">
-      <div className="movie-title-container" style={{backgroundImage: `url(${imgBasePath + "original" + movieDetails.backdrop_path})`}}>
-      <div className="row">
-        <Link to={`/movie/${movieId}`} className="movie-title-img"><img src={imgBasePath + "w58_and_h87_face" + movieDetails.poster_path} /></Link>
-        <div className="movie-details col">
-          <p className="movie-title"><Link to={`/movie/${movieId}`} className="link">{movieDetails.title}</Link><span className="movie-year"> {`(${getReleaseYear(movieDetails.release_date)})`}</span></p>
-          <Link className="back-to-main" to={`/movie/${movieId}`}>← Back to main</Link>
-        </div>
-      </div>
-      </div>
-      </div>
+      <MovieTitleBar
+      movieId={movieId}
+      releaseDate={movieDetails.release_date}
+      backdropPath={movieDetails.backdrop_path}
+      title={movieDetails.title}
+      posterPath={movieDetails.poster_path}
+      />
       <section className="cast-crew">
         <div className="row">
           <div className="left-side col-6 cast-column">

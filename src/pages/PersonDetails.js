@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "../axios";
 import { useParams } from "react-router-dom";
 import { imgBasePath } from "../constants";
-import { getReleaseDate, calculateAge } from "../utils";
+import { formatDate, calculateDateDifferenceInYears } from "../utils.ts";
 import SimpleMovieCard from "../components/SimpleMovieCard";
 import SideLoginAndKeyboard from "../components/SideLoginAndKeyboard";
-import Instagram from "../components/Instagram";
-import Facebook from "../components/Facebook";
-import Twitter from "../components/Twitter";
 import ShortcutBar from "../components/ShortcutBar";
 import FactsItem from "../components/FactsItem";
+import SocialMedia from "../components/SocialMedia";
 
 function PersonDetails() {
 
@@ -31,6 +29,8 @@ function PersonDetails() {
         console.log(error);
       })
   }, [personId])
+
+  console.log(personDetails)
 
   //Temporary Solution for Known For
   useEffect(() => {
@@ -134,9 +134,11 @@ function PersonDetails() {
             <img className="actor-pic" src={setActorMainPic()} />
           </div>
           <div className="social-media row">
-            <Facebook facebookId={socialId.facebook_id} />
-            <Twitter twitterId={socialId.twitter_id} />
-            <Instagram instagramId={socialId.instagram_id} />
+            <SocialMedia
+            facebookId={socialId.facebook_id}
+            twitterId={socialId.twitter_id}
+            instagramId={socialId.instagram_id}
+            />
           </div>
           <h3 className="personal-info">
             <bdi>
@@ -159,8 +161,13 @@ function PersonDetails() {
             />
             <FactsItem
               name="Birthdate"
-              value={personDetails.birthday !== null ? `${getReleaseDate(personDetails.birthday)} (${calculateAge(new Date(personDetails.birthday))} years old)` : "-"}
+              value={personDetails.birthday !== null ? `${formatDate(personDetails.birthday)} (${calculateDateDifferenceInYears(personDetails.birthday)} years old)` : "-"}
               className="birth-date"
+            />
+            <FactsItem
+              name="Day of Death"
+              value={personDetails.deathday !== null ? `${formatDate(personDetails.deathday)} (${calculateDateDifferenceInYears(personDetails.birthday, personDetails.deathday)} years old)` : "-"}
+              className={personDetails.deathday === null ? "hide" : "birth-date"}
             />
             <FactsItem
               name="Place of Birth"

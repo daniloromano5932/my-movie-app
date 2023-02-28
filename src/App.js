@@ -7,27 +7,36 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MovieDetails from "./pages/MovieDetails";
 import PersonDetails from "./pages/PersonDetails";
 import MovieCast from "./pages/MovieCast.js";
-import { useEffect, useState } from "react";
-import axios from './axios';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  fetchLanguages,
+  selectLanguages,
+  selectGenres,
+  fetchGenres
+} from './features/slices/movies';
 
 function App() {
+  const dispatch = useDispatch();
 
-  const [languages, setLanguages] = useState([])
-
-  //Fetch languages
+  // Fetch languages
   useEffect(() => {
-    axios
-      .get(`/configuration/languages`)
-      .then(function (response) {
-        setLanguages(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, [])
+    dispatch(fetchLanguages())
+  }, [dispatch])
 
-  //Handle delay in fetching languages
+  useEffect(() => {
+    dispatch(fetchGenres())
+  }, [dispatch])
+
+  const languages = useSelector(selectLanguages);
+  const genres = useSelector(selectGenres);
+
+  // Handle delay in fetching languages
   if (languages.length === 0) {
+    return <p>Loading...</p>
+  }
+
+  if (genres.length === 0) {
     return <p>Loading...</p>
   }
 
@@ -36,11 +45,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="movies/:slug" element={<Movies languages={languages} />} />
+        <Route path="movies/:slug" element={<Movies />} />
         <Route path="movie/:movieId" element={
-          <MovieDetails
-            languages={languages}
-          />} />
+          <MovieDetails />} />
         <Route path="person/:personId" element={<PersonDetails />} />
         <Route path="/movie/:movieId/cast" element={<MovieCast />} />
       </Routes>

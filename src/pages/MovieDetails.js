@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "../axios";
 import { useParams, Link } from "react-router-dom";
-import { formatMovieDuration, getReleaseYear, getReleaseDateNumeric } from "../utils";
+import { formatMovieDuration, getReleaseYear, formatDateNumeric } from "../utils.ts";
 import { imgBasePath } from "../constants";
 import ActorCard from "../components/ActorCard"
 import EmptyCard from "../components/EmptyCard";
 import ShortcutBar from "../components/ShortcutBar";
 import FactsItem from "../components/FactsItem";
+import SocialMedia from "../components/SocialMedia";
+import { useSelector } from 'react-redux';
+import {selectLanguages} from '../features/slices/movies';
 
 
 function MovieDetails(props) {
@@ -18,6 +21,9 @@ function MovieDetails(props) {
   const [releaseDates, setReleaseDates] = useState("")
   const [keywords, setKeywords] = useState([])
   const [movieCredits, setMovieCredits] = useState([])
+  const [socialId, setsocialId] = useState([])
+
+  const languages = useSelector(selectLanguages);
 
   //Fetch Movies' Details
   useEffect(() => {
@@ -42,6 +48,18 @@ function MovieDetails(props) {
       })
       .catch(function (error) {
         console.log(error, movieCast);
+      })
+  }, [movieId])
+
+  //Fetch Movies' External ID
+  useEffect(() => {
+    axios
+      .get(`/movie/${movieId}/external_ids?language=en-US`)
+      .then(function (response) {
+        setsocialId(response.data)
+      })
+      .catch(function (error) {
+        console.log(error);
       })
   }, [movieId])
 
@@ -83,9 +101,12 @@ function MovieDetails(props) {
 
   //Sets original Language
   const originalLanguage = movieDetails.original_language;
-  const originalLanguageName = props.languages.find(language => language.iso_639_1 === originalLanguage).english_name;
+  const originalLanguageName = languages.find(language => language.iso_639_1 === originalLanguage).english_name;
 
   //
+
+  console.log("movie details:")
+
 
   return (
     <div className="movie-details">
@@ -97,9 +118,9 @@ function MovieDetails(props) {
           </div>
           <div className="overview-details col">
             <p className="title">{movieDetails.title} <span className="title-release-year">({getReleaseYear(movieDetails.release_date)})</span></p>
-            <div className="under-title"><span className="certification">{"[" + certification + "]"}</span><span>{" " + getReleaseDateNumeric(releaseDates) + " (DE)"}</span> •
-              {movieDetails.genres.map((genre) => {
-                return <span key={genre.id}>{" " + genre.name + ","}</span>;
+            <div className="under-title"><span className="certification">{"[" + certification + "]"}</span><span>{" " + formatDateNumeric(releaseDates) + " (DE)"}</span> •
+              {movieDetails.genres.map((genre, index) => {
+                return <span key={genre.id}> { (index ? ', ' : '') + genre.name }</span>;
               })
               } • <span>{formatMovieDuration(movieDetails.runtime)}</span>
             </div>
@@ -134,7 +155,7 @@ function MovieDetails(props) {
                 })}
                 <EmptyCard
                   className="empty-card"
-                  movieCreditsId={movieCredits.i}
+                  movieCreditsId={movieCredits.id}
                 >View More</EmptyCard>
               </div>
             </div>
@@ -145,7 +166,11 @@ function MovieDetails(props) {
           </div>
         </div>
         <div className="right-side col-4">
-          <p>SOCIAL MEDIA LINKS</p>
+          <SocialMedia
+           facebookId={socialId.facebook_id}
+           twitterId={socialId.twitter_id}
+           instagramId={socialId.instagram_id}
+          />
           <FactsItem
             name="Original Title"
             value={movieDetails.original_title}

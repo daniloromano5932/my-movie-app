@@ -5,8 +5,12 @@ import Pagination from "../components/Pagination";
 import Container from 'react-bootstrap/Container';
 import MovieCard from '../components/MovieCard';
 import Filter from "../components/Filter";
+import { useSelector } from 'react-redux';
+import {selectLanguages} from '../features/slices/movies';
 
-function Movies(props) {
+function Movies() {
+  const languages = useSelector(selectLanguages);
+  console.log(languages)
   const { slug } = useParams()
   const moviesType = slug.replace('-', '_');
   const [movies, setMovies] = useState([])
@@ -73,7 +77,7 @@ function Movies(props) {
             handleFilter={handleFilter}
             searchByGenres={searchByGenres}
             searchByLanguage={selectLanguage}
-            languages={props.languages}
+            languages={languages}
           />
         </div>
         <div className='row col cards-container'>

@@ -1,6 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import { Link } from "react-router-dom";
-import { getReleaseDate } from "../utils";
+import { formatDate } from "../utils.ts";
 import { imgBasePath, tp } from "../constants";
 
 function MovieCard(props) {
@@ -12,7 +12,7 @@ function MovieCard(props) {
       </Link>
       <Card.Body>
         <Link to={'/movie/' + props.id} className='link'><Card.Title className="card-title">{props.title}</Card.Title></Link>
-        <p className='release-date'>{getReleaseDate(props.releaseDate)}</p>
+        <p className='release-date'>{formatDate(props.releaseDate)}</p>
       </Card.Body>
     </Card>
   );

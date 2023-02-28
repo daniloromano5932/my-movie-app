@@ -1,55 +1,27 @@
 import Accordion from 'react-bootstrap/Accordion';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { sortByOptions } from "../constants";
-import axios from '../axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
-
+import { useSelector } from 'react-redux';
+import {
+  selectLanguages,
+  selectGenres
+} from '../features/slices/movies';
 
 function Filter(props) {
   const [sortBy, setSortBy] = useState(sortByOptions[0])
-  const [genres, setGenres] = useState([])
-  // const [languages, setLanguages] = useState([])
   const [selectedGenres, setSelectedGenres] = useState([])
   const [selectedLanguage, setSelectedLanguage] = useState("")
-
-  useEffect(() => {
-    // fetchLanguages();
-    fetchGenres();
-  }, [])
+  const genres = useSelector(selectGenres)
+  const languages = useSelector(selectLanguages);
 
   function handleClick(option) {
     setSortBy(option)
     props.handleFilter(option.value)
   }
-
-  function fetchGenres() {
-    axios
-      .get(`/genre/movie/list`)
-      .then(function (response) {
-        setGenres(response.data.genres);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-    return genres
-  }
-
-  // function fetchLanguages() {
-  //   axios
-  //     .get(`/configuration/languages`)
-  //     .then(function (response) {
-  //       setLanguages(response.data);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     })
-  // }
-
-  
 
   function selectGenre(id) {
     setSelectedGenres(function(prev) {
@@ -144,8 +116,8 @@ function Filter(props) {
           <p>Language ?</p>
           <select className="form-select" aria-label="Default select example" onChange={selectLanguage}>
             <option value="none">None Selected</option>
-            {props.languages.map((language) => {
-              return <option key={language.id} value={language.iso_639_1}>{language.english_name}</option>
+            {languages.map((language) => {
+              return <option key={language.iso_639_1} value={language.iso_639_1}>{language.english_name}</option>
             })}
           </select>
           <hr />
