@@ -10,7 +10,6 @@ import {selectLanguages} from '../features/slices/movies';
 
 function Movies() {
   const languages = useSelector(selectLanguages);
-  console.log(languages)
   const { slug } = useParams()
   const moviesType = slug.replace('-', '_');
   const [movies, setMovies] = useState([])

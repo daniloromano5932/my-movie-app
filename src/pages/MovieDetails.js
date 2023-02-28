@@ -8,13 +8,19 @@ import EmptyCard from "../components/EmptyCard";
 import ShortcutBar from "../components/ShortcutBar";
 import FactsItem from "../components/FactsItem";
 import SocialMedia from "../components/SocialMedia";
-import { useSelector } from 'react-redux';
-import {selectLanguages} from '../features/slices/movies';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  fetchMovieDetails,
+  selectLanguages,
+  selectMovieDetails
+} from '../features/slices/movies';
 
 
-function MovieDetails(props) {
+function MovieDetails() {
   const { movieId } = useParams()
-  const [movieDetails, setMovieDetails] = useState(null)
+  const dispatch = useDispatch();
+ 
+  // const [movieDetails, setMovieDetails] = useState(null)
   const [movieCast, setMovieCast] = useState([])
   const [movieCrew, setMovieCrew] = useState([])
   const [certification, setCertification] = useState("")
@@ -25,17 +31,18 @@ function MovieDetails(props) {
 
   const languages = useSelector(selectLanguages);
 
+  function temporarySelector(state) {
+    return selectMovieDetails(state, movieId)
+  }
+
+  const movieDetails = useSelector(temporarySelector);
+
   //Fetch Movies' Details
   useEffect(() => {
-    axios
-      .get(`/movie/${movieId}?language=en-US`)
-      .then(function (response) {
-        setMovieDetails(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, [movieId])
+    if (!movieDetails) {
+      dispatch(fetchMovieDetails(movieId))
+    }
+  }, [dispatch])
 
   //Fetch Movies' Credits (Crew and Cast)
   useEffect(() => {
@@ -95,18 +102,13 @@ function MovieDetails(props) {
       })
   }, [movieId])
 
-  if (movieDetails === null) {
+  if (!movieDetails) {
     return <p>Loading...</p>
   }
 
   //Sets original Language
   const originalLanguage = movieDetails.original_language;
   const originalLanguageName = languages.find(language => language.iso_639_1 === originalLanguage).english_name;
-
-  //
-
-  console.log("movie details:")
-
 
   return (
     <div className="movie-details">
