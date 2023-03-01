@@ -8,34 +8,49 @@ import EmptyCard from "../components/EmptyCard";
 import ShortcutBar from "../components/ShortcutBar";
 import FactsItem from "../components/FactsItem";
 import SocialMedia from "../components/SocialMedia";
-import { useSelector } from 'react-redux';
-import {selectLanguages} from '../features/slices/movies';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  fetchMovieDetails,
+  selectLanguages,
+  selectMovieDetails,
+  fetchExternalIds,
+  selectExternalIds,
+} from '../features/slices/movies';
 
 
-function MovieDetails(props) {
+function MovieDetails() {
   const { movieId } = useParams()
-  const [movieDetails, setMovieDetails] = useState(null)
+  const dispatch = useDispatch();
+ 
+  // const [movieDetails, setMovieDetails] = useState(null)
   const [movieCast, setMovieCast] = useState([])
   const [movieCrew, setMovieCrew] = useState([])
   const [certification, setCertification] = useState("")
   const [releaseDates, setReleaseDates] = useState("")
   const [keywords, setKeywords] = useState([])
   const [movieCredits, setMovieCredits] = useState([])
-  const [socialId, setsocialId] = useState([])
+  // const [socialId, setsocialId] = useState([])
 
   const languages = useSelector(selectLanguages);
 
+  function temporarySelector(state) {
+    return selectMovieDetails(state, movieId)
+  }
+
+  function passIdToExternalId(state) {
+    return selectExternalIds(state, movieId)
+  }
+
+  const movieDetails = useSelector(temporarySelector);
+  const externalIds = useSelector(passIdToExternalId);
+  
+
   //Fetch Movies' Details
   useEffect(() => {
-    axios
-      .get(`/movie/${movieId}?language=en-US`)
-      .then(function (response) {
-        setMovieDetails(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, [movieId])
+    if (!movieDetails) {
+      dispatch(fetchMovieDetails(movieId))
+    }
+  }, [dispatch])
 
   //Fetch Movies' Credits (Crew and Cast)
   useEffect(() => {
@@ -53,15 +68,10 @@ function MovieDetails(props) {
 
   //Fetch Movies' External ID
   useEffect(() => {
-    axios
-      .get(`/movie/${movieId}/external_ids?language=en-US`)
-      .then(function (response) {
-        setsocialId(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, [movieId])
+    if (!externalIds) {
+      dispatch(fetchExternalIds(movieId))
+    }
+  }, [dispatch])
 
   //Get the 9 Top Billed Cast
   const topBilledCast = movieCast.slice(0, 9);
@@ -95,18 +105,13 @@ function MovieDetails(props) {
       })
   }, [movieId])
 
-  if (movieDetails === null) {
+  if (!movieDetails || !externalIds) {
     return <p>Loading...</p>
   }
 
   //Sets original Language
   const originalLanguage = movieDetails.original_language;
   const originalLanguageName = languages.find(language => language.iso_639_1 === originalLanguage).english_name;
-
-  //
-
-  console.log("movie details:")
-
 
   return (
     <div className="movie-details">
@@ -167,9 +172,9 @@ function MovieDetails(props) {
         </div>
         <div className="right-side col-4">
           <SocialMedia
-           facebookId={socialId.facebook_id}
-           twitterId={socialId.twitter_id}
-           instagramId={socialId.instagram_id}
+           facebookId={externalIds.facebook_id}
+           twitterId={externalIds.twitter_id}
+           instagramId={externalIds.instagram_id}
           />
           <FactsItem
             name="Original Title"
