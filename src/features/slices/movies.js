@@ -6,6 +6,8 @@ const initialState = {
   genres: [],
   movieDetails: {},
   externalIds: {},
+  keywords: [],
+  movieCredits: {},
 };
 
 export const fetchLanguages = createAsyncThunk(
@@ -64,6 +66,33 @@ export const fetchExternalIds = createAsyncThunk(
   }
 );
 
+export const fetchKeywords = createAsyncThunk(
+  'keywords/fetchKeywords',
+  async (movieId) => {
+    return axios
+    .get(`/movie/${movieId}/keywords`)
+    .then(function (response) {
+      return response.data.keywords
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+);
+
+export const fetchMovieCredits = createAsyncThunk(
+  'movieCredits/fetchMovieCredits',
+  async (movieId) => {
+    return axios
+    .get(`/movie/${movieId}/credits?language=en-US`)
+    .then(function (response) {
+      return response.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+);
 
 const moviesSlice = createSlice({
   name: 'movies',
@@ -78,6 +107,10 @@ const moviesSlice = createSlice({
         state.movieDetails[action.payload.id] = action.payload;
       }).addCase(fetchExternalIds.fulfilled, (state, action) => {
         state.externalIds[action.payload.id] = action.payload;
+      }).addCase(fetchKeywords.fulfilled, (state, action) => {
+        state.keywords = action.payload;
+      }).addCase(fetchMovieCredits.fulfilled, (state, action) => {
+        state.movieCredits[action.payload.id] = action.payload;
       })},
 });
 
@@ -85,5 +118,7 @@ export const selectLanguages = (state) => state.movies.languages;
 export const selectGenres = (state) => state.movies.genres;
 export const selectMovieDetails = (state, movieId) => state.movies.movieDetails[movieId]
 export const selectExternalIds = (state, movieId) => state.movies.externalIds[movieId]
+export const selectKeywords = (state) => state.movies.keywords;
+export const selectMovieCredits = (state, movieId) => state.movies.movieCredits[movieId]
 
 export default moviesSlice.reducer;
