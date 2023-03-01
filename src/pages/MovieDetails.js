@@ -15,6 +15,10 @@ import {
   selectMovieDetails,
   fetchExternalIds,
   selectExternalIds,
+  fetchKeywords,
+  selectKeywords,
+  selectMovieCredits,
+  fetchMovieCredits,
 } from '../features/slices/movies';
 
 
@@ -22,17 +26,12 @@ function MovieDetails() {
   const { movieId } = useParams()
   const dispatch = useDispatch();
  
-  // const [movieDetails, setMovieDetails] = useState(null)
-  const [movieCast, setMovieCast] = useState([])
-  const [movieCrew, setMovieCrew] = useState([])
+ 
   const [certification, setCertification] = useState("")
   const [releaseDates, setReleaseDates] = useState("")
-  const [keywords, setKeywords] = useState([])
-  const [movieCredits, setMovieCredits] = useState([])
-  // const [socialId, setsocialId] = useState([])
+
 
   const languages = useSelector(selectLanguages);
-
   function temporarySelector(state) {
     return selectMovieDetails(state, movieId)
   }
@@ -41,9 +40,14 @@ function MovieDetails() {
     return selectExternalIds(state, movieId)
   }
 
+  function passIdtoCredits(state) {
+    return selectMovieCredits(state, movieId)
+  }
+
   const movieDetails = useSelector(temporarySelector);
   const externalIds = useSelector(passIdToExternalId);
-  
+  const keywords = useSelector(selectKeywords);
+  const movieCredits = useSelector(passIdtoCredits)
 
   //Fetch Movies' Details
   useEffect(() => {
@@ -54,17 +58,10 @@ function MovieDetails() {
 
   //Fetch Movies' Credits (Crew and Cast)
   useEffect(() => {
-    axios
-      .get(`/movie/${movieId}/credits?language=en-US`)
-      .then(function (response) {
-        setMovieCast(response.data.cast);
-        setMovieCrew(response.data.crew);
-        setMovieCredits(response.data)
-      })
-      .catch(function (error) {
-        console.log(error, movieCast);
-      })
-  }, [movieId])
+    if (!movieCredits) {
+      dispatch(fetchMovieCredits(movieId))
+    }
+  }, [dispatch])
 
   //Fetch Movies' External ID
   useEffect(() => {
@@ -74,7 +71,7 @@ function MovieDetails() {
   }, [dispatch])
 
   //Get the 9 Top Billed Cast
-  const topBilledCast = movieCast.slice(0, 9);
+  const topBilledCast = movieCredits.cast.slice(0, 9);
 
   //Hardcoded solution for setting Movies' Certification and Release Dates 
   useEffect(() => {
@@ -95,17 +92,12 @@ function MovieDetails() {
 
   //Fetch Movies' Keywords
   useEffect(() => {
-    axios
-      .get(`/movie/${movieId}/keywords`)
-      .then(function (response) {
-        setKeywords(response.data.keywords)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, [movieId])
+    if (keywords.length === 0) {
+      dispatch(fetchKeywords(movieId))
+    }
+  }, [dispatch])
 
-  if (!movieDetails || !externalIds) {
+  if (!movieDetails || !externalIds || !keywords || !movieCredits) {
     return <p>Loading...</p>
   }
 
