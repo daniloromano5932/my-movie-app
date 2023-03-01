@@ -12,7 +12,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchMovieDetails,
   selectLanguages,
-  selectMovieDetails
+  selectMovieDetails,
+  fetchExternalIds,
+  selectExternalIds,
 } from '../features/slices/movies';
 
 
@@ -27,7 +29,7 @@ function MovieDetails() {
   const [releaseDates, setReleaseDates] = useState("")
   const [keywords, setKeywords] = useState([])
   const [movieCredits, setMovieCredits] = useState([])
-  const [socialId, setsocialId] = useState([])
+  // const [socialId, setsocialId] = useState([])
 
   const languages = useSelector(selectLanguages);
 
@@ -35,7 +37,13 @@ function MovieDetails() {
     return selectMovieDetails(state, movieId)
   }
 
+  function passIdToExternalId(state) {
+    return selectExternalIds(state, movieId)
+  }
+
   const movieDetails = useSelector(temporarySelector);
+  const externalIds = useSelector(passIdToExternalId);
+  
 
   //Fetch Movies' Details
   useEffect(() => {
@@ -60,15 +68,10 @@ function MovieDetails() {
 
   //Fetch Movies' External ID
   useEffect(() => {
-    axios
-      .get(`/movie/${movieId}/external_ids?language=en-US`)
-      .then(function (response) {
-        setsocialId(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, [movieId])
+    if (!externalIds) {
+      dispatch(fetchExternalIds(movieId))
+    }
+  }, [dispatch])
 
   //Get the 9 Top Billed Cast
   const topBilledCast = movieCast.slice(0, 9);
@@ -102,7 +105,7 @@ function MovieDetails() {
       })
   }, [movieId])
 
-  if (!movieDetails) {
+  if (!movieDetails || !externalIds) {
     return <p>Loading...</p>
   }
 
@@ -169,9 +172,9 @@ function MovieDetails() {
         </div>
         <div className="right-side col-4">
           <SocialMedia
-           facebookId={socialId.facebook_id}
-           twitterId={socialId.twitter_id}
-           instagramId={socialId.instagram_id}
+           facebookId={externalIds.facebook_id}
+           twitterId={externalIds.twitter_id}
+           instagramId={externalIds.instagram_id}
           />
           <FactsItem
             name="Original Title"
