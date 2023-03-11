@@ -39,6 +39,9 @@ function Header() {
                 </Link>
               </div>
             </NavDropdown>
+            <Link to="/signup">
+              <p>Join TMDB</p>
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,5 +1,6 @@
 //Base Paths
 export const imgBasePath = "https://image.tmdb.org/t/p/";
+export const avatarBasePath = "https://www.themoviedb.org/t/p"; 
 export const troupeImgSize = "w66_and_h66_face";
 export const glyphiconsBasePath = "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-"
 export const tp = "/t/p/"

@@ -21,6 +21,13 @@ export function formatDate(date: string) {
   return new Date(date).toLocaleDateString('en-UK', { day: "numeric", month: "short", year: "numeric" });
 }
 
+export function formatDateLongMonth(date: string) {
+  if (!date) {
+    return 's'
+  }
+  return new Date(date).toLocaleDateString('en-UK', { day: "numeric", month: "long", year: "numeric" });
+}
+
 export function formatDateNumeric(date: string) {
   if (!date) {
     return ''

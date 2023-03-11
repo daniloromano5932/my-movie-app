@@ -14,7 +14,7 @@
 }
 
 .card-item {
-  width: calc(20% - 30px) !important;
+  width: calc(20% - 30px) !important; 
   margin: 15px;
   padding: 0px !important;
 }
@@ -34,11 +34,16 @@
   font-weight: bold;
   font-size: 0.8em !important;
   display: flex;
+
 }
 
 .cast-crew {
   font-weight: 600;
   font-size: 1.1em;
+}
+
+.cast-crew:hover {
+  color: #0706064a
 }
 
 .actor-right-side {
@@ -109,6 +114,7 @@ margin-top: 30px;
   color: #808080;
 }
 
+
 .actor-card-title:hover {
   color: #808080 !important;
 }
@@ -152,6 +158,15 @@ margin-top: 30px;
     margin-right: 4px;
     padding-bottom: 10px;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+    min-width: 140px !important;
+    width: 140px;
+}
+
+
+.top-billed {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 
@@ -182,11 +197,7 @@ div.col-4 p strong {
   display: block;
   font-weight: 600;
 }
-.actor-card-item {
-  min-width: 140px !important;
-  width: 140px;
-  margin-right: 10px;
-}
+
 
 
 
@@ -278,7 +289,7 @@ div.scroller-wrap.should-fade:after {
   text-decoration: none;
 }
 
-.card-title:hover {
+.movie-card-title:hover {
   color: #01b4e4;
 }
 
@@ -373,16 +384,69 @@ div.scroller-wrap.should-fade:after {
 }
 
 .poster-img-container {
-  margin-left: 50px;
+  margin-left: 150px;
+}
+
+.poster-img {
+  margin-top: 20px;
 }
 
 .overview-details {
-  margin-left: 100px;
+  margin-left: 80px;
+}
+
+.details-container {
+  margin-top: 60px;
+  margin-left: 20px;
+  width: 900px;
 }
 
 .selected {
   background-color: #01b4e4 !important;
   color: #f0f8ff !important;
+}
+
+.reviews, .discussions {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
+.underlined {
+  color: red !important;
+}
+
+.more {
+  height: "10rem";
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+.card-shadow {
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+}
+
+.review-title {
+  display: inline-block;
+}
+
+.review-title:hover {
+  color: #808080;
+}
+
+.review-img {
+  border: 1px solid #000;
+  background-color: #01b4e4;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+
+.review-img-container {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 30px;
 }
 
 .btn-light {
@@ -491,8 +555,38 @@ div.scroller-wrap.should-fade:after {
   font-size: 1.4em;
 }
 
+.glyphicons_v2.bookmark.white {
+  background-image: url("https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-73-bookmark-white-432e98d….svg");
+  color: #000;
+}
+
+.user-score {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 50px;
+  padding-top: 20px;
+}
+
+.vote-average {
+  margin-bottom: 15px;
+}
+
+.score {
+  display: inline;
+  margin-top: 150px;
+}
+
+.left-side {
+  margin-left: 100px;
+}
+
+.right-side {
+  margin-right: 10px;
+}
 .cast-crew {
-  margin-left: 50px;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #000;
 }
 
 .troupe {
@@ -585,3 +679,8 @@ div.scroller-wrap.should-fade:after {
   height: 150px;
   padding-top: 25px;
 }
+
+.signup, .cancel {
+  margin-left: 20px;
+}
+

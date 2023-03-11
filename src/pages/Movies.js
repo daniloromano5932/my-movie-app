@@ -68,6 +68,7 @@ function Movies() {
       })
   }
 
+
   return (
     <Container>
       <div className='row'>

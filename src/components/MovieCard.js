@@ -11,7 +11,7 @@ function MovieCard(props) {
         {props.img && <Card.Img variant="top" src={imgBasePath + tp + "w500" + props.img} className="card-image" />}
       </Link>
       <Card.Body>
-        <Link to={'/movie/' + props.id} className='link'><Card.Title className="card-title">{props.title}</Card.Title></Link>
+        <Link to={'/movie/' + props.id} className='link'><Card.Title className="movie-card-title">{props.title}</Card.Title></Link>
         <p className='release-date'>{formatDate(props.releaseDate)}</p>
       </Card.Body>
     </Card>
